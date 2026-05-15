@@ -1,0 +1,9 @@
+schemas/gschemas.compiled
+*.zip
+node_modules/
+.DS_Store
+*.log
+gnome-vm-manager-new/
+vm-manager.zip
+docker-manager.zip
+test.sh

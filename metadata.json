@@ -1,0 +1,9 @@
+{
+  "name": "Docker Manager",
+  "description": "Manage Docker containers from the GNOME panel",
+  "uuid": "docker-manager@omerfarukgungor",
+  "shell-version": ["45", "46", "47", "48", "49", "50"],
+  "url": "https://github.com/o-fgungor/gnome-docker-manager",
+  "settings-schema": "org.gnome.shell.extensions.docker-manager",
+  "version": 2
+}

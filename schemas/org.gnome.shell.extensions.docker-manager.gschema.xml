@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.docker-manager" path="/org/gnome/shell/extensions/docker-manager/">
+
+    <key name="terminal" type="s">
+      <default>''</default>
+      <summary>Custom terminal command</summary>
+      <description>Custom terminal command used only when the terminal profile is set to Custom. The command is appended after it.</description>
+    </key>
+
+    <key name="terminal-profile" type="s">
+      <default>''</default>
+      <summary>Terminal profile</summary>
+      <description>Selected terminal preset. Empty value preserves backward compatibility.</description>
+    </key>
+
+    <key name="show-all-containers" type="b">
+      <default>true</default>
+      <summary>Show stopped containers</summary>
+      <description>When enabled, stopped containers are shown alongside running containers.</description>
+    </key>
+
+    <key name="group-by-compose-project" type="b">
+      <default>true</default>
+      <summary>Group by Docker Compose project</summary>
+      <description>When enabled, containers are grouped by the com.docker.compose.project label when available.</description>
+    </key>
+
+  </schema>
+</schemalist>
