@@ -45,8 +45,9 @@ class DockerIndicator extends PanelMenu.Button {
         this.add_child(this._box);
     }
 
-    update(runningCount, totalCount, hasPaused, hasDanger) {
-        this._label.text = runningCount > 0 ? ` ${runningCount}/${totalCount}` : "";
+    update(runningCount, hasPaused, hasDanger) {
+        /* Spacing from the icon comes from panel-status-indicators-box. */
+        this._label.text = runningCount > 0 ? `${runningCount}` : "";
 
         this._icon.remove_style_class_name("docker-panel-icon-danger");
         this._icon.remove_style_class_name("docker-panel-icon-warning");

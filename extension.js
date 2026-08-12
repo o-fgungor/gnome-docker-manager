@@ -167,7 +167,7 @@ export default class DockerManagerExtension extends Extension {
         const runningCount = this._containers.filter(c => c.state === "running").length;
         const pausedCount = this._containers.filter(c => c.state === "paused").length;
         const dangerCount = this._containers.filter(c => ["dead", "restarting"].includes(c.state)).length;
-        this._indicator.update(runningCount, this._containers.length, pausedCount > 0, dangerCount > 0);
+        this._indicator.update(runningCount, pausedCount > 0, dangerCount > 0);
     }
 
     _buildMenuSafely() {
