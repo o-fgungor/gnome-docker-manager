@@ -52,17 +52,23 @@ export class DockerMenu {
                 groups.get(c.composeProject).push(c);
             } else { loose.push(c); }
         }
+        /* Separators go before a section, so the last one never collides with
+           the separator the global bulk actions add. */
+        const startSection = () => {
+            if (menu.numMenuItems > 0)
+                menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+        };
         for (const [project, containers] of groups) {
+            startSection();
             menu.addMenuItem(new PopupMenu.PopupMenuItem(project, { reactive: false }));
             this._buildFlatMenu(menu, containers);
             this._addBulkActions(menu, project, containers);
-            menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         }
         if (loose.length > 0) {
+            startSection();
             menu.addMenuItem(new PopupMenu.PopupMenuItem("Other Containers", { reactive: false }));
             this._buildFlatMenu(menu, loose);
             this._addBulkActions(menu, "Other", loose);
-            menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         }
     }
 
