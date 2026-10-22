@@ -50,13 +50,10 @@ class DockerIndicator extends PanelMenu.Button {
 
         this._icon.remove_style_class_name("docker-panel-icon-danger");
         this._icon.remove_style_class_name("docker-panel-icon-warning");
-        this._icon.remove_style_class_name("docker-panel-icon-running");
 
         if (hasDanger)
             this._icon.add_style_class_name("docker-panel-icon-danger");
         else if (hasPaused)
             this._icon.add_style_class_name("docker-panel-icon-warning");
-        else if (runningCount > 0)
-            this._icon.add_style_class_name("docker-panel-icon-running");
     }
 });
