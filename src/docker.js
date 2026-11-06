@@ -68,8 +68,12 @@ export function startEventListener(onEvent, onDied) {
 
     _eventCancellable = new Gio.Cancellable();
 
+    // Only container lifecycle events. Unfiltered, every healthcheck emits 3 exec_* events,
+    // and each one spawned `docker ps` inside gnome-shell, which grew its memory.
+    const filters = ["create", "start", "restart", "stop", "die", "kill", "pause", "unpause",
+        "rename", "destroy", "oom", "health_status"].flatMap(e => ["--filter", `event=${e}`]);
     _eventProc = Gio.Subprocess.new(
-        ["docker", "events", "--format", "{{json .}}"],
+        ["docker", "events", "--filter", "type=container", ...filters, "--format", "{{json .}}"],
         Gio.SubprocessFlags.STDOUT_PIPE | Gio.SubprocessFlags.STDERR_PIPE,
     );
 
