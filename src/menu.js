@@ -224,6 +224,7 @@ export class DockerMenu {
         submenu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
         if (isRunning) submenu.addMenuItem(this._createActionButton("Shell", () => this._ext._openShell(container)));
+        submenu.addMenuItem(this._createActionButton("Logs", () => this._ext._openLogs(container)));
         for (const { label, action } of getActionsForState(container.state))
             submenu.addMenuItem(this._createActionButton(label, () => this._ext._runAction(action, container.id)));
 
