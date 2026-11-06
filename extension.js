@@ -250,11 +250,23 @@ export default class DockerManagerExtension extends Extension {
     }
 
     _openShell(container) {
+        this._openInTerminal(["docker", "exec", "-it", container.id, "sh"], "shell");
+    }
+
+    _openLogs(container) {
+        // less keeps the terminal open after the logs of a stopped container end,
+        // and +F follows a running one. Ctrl+C stops following, q closes the terminal.
+        const follow = container.state === "running";
+        const script = `exec less -R ${follow ? "+F" : "+G"} < <(docker logs --tail 1000 ${follow ? "-f " : ""}"$1" 2>&1)`;
+        this._openInTerminal(["bash", "-c", script, "bash", container.id], "logs");
+    }
+
+    _openInTerminal(commandArgv, what) {
         try {
-            const argv = resolveTerminalArgv(this._settings, ["docker", "exec", "-it", container.id, "sh"]);
+            const argv = resolveTerminalArgv(this._settings, commandArgv);
             Gio.Subprocess.new(argv, Gio.SubprocessFlags.NONE);
             this._indicator.menu.close();
-        } catch (e) { Main.notify("Docker Manager", `Failed to open shell: ${e.message}`); }
+        } catch (e) { Main.notify("Docker Manager", `Failed to open ${what}: ${e.message}`); }
     }
 
     _showError(message) {
