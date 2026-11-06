@@ -95,12 +95,10 @@ export default class DockerManagerExtension extends Extension {
             this._eventDebounceId = null;
         }
         
+        // The scroll view is inside the indicator's menu, so this destroys it too.
         this._indicator?.destroy();
         this._indicator = null;
-        if (this._menuScrollView) {
-            this._menuScrollView.destroy();
-            this._menuScrollView = null;
-        }
+        this._menuScrollView = null;
         this._menuBuilder = null;
         this._settings = null;
     }
