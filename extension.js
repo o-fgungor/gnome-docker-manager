@@ -146,8 +146,8 @@ export default class DockerManagerExtension extends Extension {
             
             // Rebuild only if no action is in progress. 
             // If an action IS in progress, we just marked _needsRebuild = true.
-            if (this._needsRebuild && !this._actionInProgress) {
-                this._needsRebuild = false;
+            // A closed menu is rebuilt when it opens, so do not rebuild it in the background.
+            if (this._needsRebuild && !this._actionInProgress && this._indicator?.menu.isOpen) {
                 this._buildMenuSafely();
             }
             return containers;
@@ -171,6 +171,7 @@ export default class DockerManagerExtension extends Extension {
     }
 
     _buildMenuSafely() {
+        this._needsRebuild = false;
         try { 
             this._menuBuilder.build(); 
         } catch (e) { 
