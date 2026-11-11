@@ -10,18 +10,26 @@ export class DockerMenu {
     constructor(extension) {
         this._ext = extension;
         this._bulkActionResetters = [];
+        this._bulkButtons = [];
         this._bgClickId = null;
     }
 
     build() {
         this._ext._stopLiveStats();
         this._bulkActionResetters = [];
+        this._bulkButtons = [];
         const menu = this._ext._indicator.menu;
         menu.removeAll();
 
         if (!this._bgClickId) {
             menu.box.reactive = true;
-            this._bgClickId = menu.box.connect("button-press-event", () => {
+            this._bgClickId = menu.box.connect("button-press-event", (_actor, event) => {
+                // Since GNOME 50, St.Button handles clicks with a click gesture, so
+                // presses on a bulk button bubble up here too. Don't let them reset
+                // the confirmation of the button being clicked.
+                const source = event.get_source();
+                if (this._bulkButtons.some(btn => btn.contains(source)))
+                    return Clutter.EVENT_PROPAGATE;
                 this.resetBulkActions();
                 return Clutter.EVENT_PROPAGATE;
             });
@@ -104,6 +112,7 @@ export class DockerMenu {
                 btn.reactive = true;
             };
             this._bulkActionResetters.push(resetBtn);
+            this._bulkButtons.push(btn);
 
             btn.connect("clicked", () => {
                 if (loading) return;
